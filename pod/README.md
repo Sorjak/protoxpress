@@ -16,4 +16,4 @@ All pod related code should go into subdirectories in here.
 
 ## POD INTERFACE
 
-:tablet:
+:computer:
