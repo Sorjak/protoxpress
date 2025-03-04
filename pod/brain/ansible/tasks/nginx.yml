@@ -1,0 +1,31 @@
+- name: Install nginx
+  become: true
+  apt:
+    name: nginx
+    state: latest
+    update_cache: yes
+
+- name: Remove default nginx configuration
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+- name: Add nginx configuration
+  copy:
+    src: "$HOME/protoxpress/pod/brain/nginx.conf"
+    dest: /etc/nginx/sites-available/site.conf
+    owner: "{{ ansible_user }}"
+    group: root
+    mode: '0644'
+
+- name: Enable website configuration
+  file:
+    src: /etc/nginx/sites-available/site.conf
+    dest: /etc/nginx/sites-enabled/site.conf
+    state: link
+
+- name: Ensure nginx is running
+  systemd:
+    name: nginx
+    state: started
+    enabled: yes

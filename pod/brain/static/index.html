@@ -1,0 +1,49 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <h1>ProtoXpress</h1>
+
+        <p>Set scene:</p>
+        <ul>
+            <li><a class="api-link" href="#">Initial</a></li>
+            <li><a class="api-link" href="#">Debone</a></li>
+            <li><a class="api-link" href="#">Error</a></li>
+            <li><a class="api-link" href="#">Finale</a></li>
+        </ul>
+
+    </body>
+
+    <script type="text/javascript">
+        const api_url = '/api/scene'
+        async function setScene(scene) {
+            console.log(`Setting scene ${scene}`);
+
+            const response = await fetch(api_url, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({'scene': scene.toLowerCase()})
+            });
+
+            if (!response.ok) { 
+                console.error(response.json()); return; 
+            }
+
+            console.log(await response.json());
+            return;
+        }
+
+        var els = document.getElementsByClassName("api-link");
+
+        [].forEach.call(els, function(el) {
+            el.onclick = (evt) => {
+                evt.preventDefault();
+                setScene(evt.target.innerText);
+            }
+        });
+    </script>
+
+</html>

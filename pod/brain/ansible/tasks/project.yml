@@ -1,0 +1,18 @@
+- name: Clone project
+  git:
+    repo: 'https://github.com/Sorjak/protoxpress.git'
+    dest: "$HOME/protoxpress"
+    clone: yes
+    update: yes
+
+- name: Move app dir
+  copy:
+    remote_src: true
+    src: "$HOME/protoxpress/pod/brain/app"
+    dest: /srv/app
+
+- name: Move static dir
+  copy:
+    remote_src: true
+    src: "$HOME/protoxpress/pod/brain/static"
+    dest: /var/www/static

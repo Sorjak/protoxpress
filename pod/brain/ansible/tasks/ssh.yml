@@ -1,0 +1,19 @@
+
+- name: Update sshd_config
+  become: true
+  blockinfile:
+    dest: "/etc/ssh/sshd_config"
+    insertafter: "^Include /etc/ssh/sshd_config"
+    block: |
+      Protocol 2
+      PasswordAuthentication no
+      PermitEmptyPasswords no
+      PermitRootLogin no
+      MaxAuthTries 3
+
+- name: Restart sshd service
+  become: true
+  service:
+    name: sshd
+    state: restarted
+    enabled: true

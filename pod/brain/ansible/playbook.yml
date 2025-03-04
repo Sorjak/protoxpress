@@ -1,0 +1,28 @@
+- name: Main Playbook
+  hosts: protohosts
+  vars:
+    swap_size_mb: 1024
+  tasks:
+    - name: Initial setup
+      ansible.builtin.include_tasks:
+        file: tasks/initial_setup.yml
+    
+    - name: SWAP
+      ansible.builtin.include_tasks:
+        file: tasks/swap.yml
+
+    - name: SSH
+      ansible.builtin.include_tasks:
+        file: tasks/ssh.yml
+
+    - name: pyenv
+      ansible.builtin.include_tasks:
+        file: tasks/pyenv.yml
+
+    - name: project
+      ansible.builtin.include_tasks:
+        file: tasks/project.yml
+
+    - name: nginx
+      ansible.builtin.include_tasks:
+        file: tasks/nginx.yml
