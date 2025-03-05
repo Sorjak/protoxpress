@@ -2,6 +2,8 @@ import os
 
 from flask import Flask, request
 
+from .lib import set_scene
+
 def create_app():
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
@@ -14,8 +16,13 @@ def create_app():
     def post_set_scene():
         scene = request.json.get('scene')
         if not scene:
-            return {'success': False}
+            return {'success': False, 'error': 'No scene provided'}, 400
 
-        return {'success': True, 'msg': f"set scene {scene}"}
+        try:
+            set_scene(scene)
+        except Exception as e:
+            return {'success': False, 'error': str(e)}, 400
+
+        return {'success': True, 'msg': f"Set scene {scene}"}
 
     return app

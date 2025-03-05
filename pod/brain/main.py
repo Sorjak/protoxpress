@@ -2,7 +2,7 @@ import time
 
 import click
 
-from app.lib import GPIO, moods
+from app.lib import GPIO, set_scene
 
 @click.group()
 def cli():
@@ -11,10 +11,10 @@ def cli():
 @cli.command()
 @click.argument('mood')
 def set_mood(mood):
-    pin = int(moods.get(mood))
-    GPIO.output(pin, GPIO.HIGH)
-    time.sleep(1)
-    GPIO.output(pin, GPIO.LOW)
+    try:
+        set_scene(mood)
+    except Exception as e:
+        print(e)
 
 
 if __name__ == '__main__':
