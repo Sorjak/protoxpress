@@ -1,0 +1,8 @@
+[Unit]
+Description=PodBrain flask app service
+
+[Service]
+ExecStart=/srv/app/.venv/bin/flask --app /srv/app run
+
+[Install]
+WantedBy=multi-user.target

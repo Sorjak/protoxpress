@@ -14,3 +14,10 @@
       - git
       - vim
       - curl
+
+- name: Setup config directory
+  become: true
+  file:
+    path: /etc/ansible
+    state: directory
+    owner: "{{ ansible_user }}"

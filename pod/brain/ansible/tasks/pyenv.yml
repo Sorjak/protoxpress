@@ -50,7 +50,7 @@
     marker: '# {mark} ANSIBLE MANAGED BLOCK - pyenv'
     create: yes
 
-- name: Install Python 3.12
-  shell: $HOME/.pyenv/bin/pyenv install 3.12 && $HOME/.pyenv/bin/pyenv global 3.12
+- name: Install Python 3.12.9
+  shell: $HOME/.pyenv/bin/pyenv install 3.12.9
   args:
     creates: "$HOME/.pyenv/versions/3.12.9"

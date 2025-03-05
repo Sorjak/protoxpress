@@ -1,0 +1,14 @@
+- name: Add systemd unit file
+  become: true
+  file:
+    src: /etc/ansible/podbrain.service
+    dest: /etc/systemd/system/podbrain.service
+    state: link
+
+
+- name: Ensure app service is running
+  become: true
+  systemd:
+    name: podbrain
+    state: started
+    enabled: true

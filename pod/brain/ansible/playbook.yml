@@ -26,3 +26,7 @@
     - name: nginx
       ansible.builtin.include_tasks:
         file: tasks/nginx.yml
+
+    - name: systemd
+      ansible.builtin.include_tasks:
+        file: tasks/systemd.yml

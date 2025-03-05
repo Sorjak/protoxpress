@@ -5,14 +5,50 @@
     clone: yes
     update: yes
 
+- name: Move nginx config
+  copy:
+    remote_src: true
+    src: "$HOME/protoxpress/pod/brain/nginx.conf"
+    dest: /etc/ansible/nginx.conf
+
+- name: Move systemd config
+  copy:
+    remote_src: true
+    src: "$HOME/protoxpress/pod/brain/podbrain.service"
+    dest: /etc/ansible/podbrain.service
+
+- name: Create app dir
+  become: true
+  file:
+    path: /srv/app
+    state: directory
+    owner: "{{ ansible_user }}"
+
+- name: Create static dir
+  become: true
+  file:
+    path: /var/www/static
+    state: directory
+    owner: "{{ ansible_user }}"
+
 - name: Move app dir
   copy:
     remote_src: true
-    src: "$HOME/protoxpress/pod/brain/app"
+    src: "$HOME/protoxpress/pod/brain/app/"
     dest: /srv/app
 
 - name: Move static dir
   copy:
     remote_src: true
-    src: "$HOME/protoxpress/pod/brain/static"
+    src: "$HOME/protoxpress/pod/brain/static/"
     dest: /var/www/static
+
+- name: Create virtual environment for app
+  shell: "$HOME/.pyenv/versions/3.12.9/bin/python -m venv /srv/app/.venv"
+  args:
+    creates: /srv/app/.venv
+
+- name: Install requirements in venv
+  pip:
+    requirements: "$HOME/protoxpress/pod/brain/requirements.txt"
+    virtualenv: /srv/app/.venv
