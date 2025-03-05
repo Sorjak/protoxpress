@@ -2,11 +2,13 @@ import os
 
 from flask import Flask, request
 
-from .lib import set_scene
+from .lib import init_board, set_scene
 
 def create_app():
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
+
+    init_board()
 
     @app.get('/debug')
     def debug():
