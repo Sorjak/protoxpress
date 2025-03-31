@@ -23,6 +23,7 @@ input_pin_0 = board.A0
 input_pin_1 = board.A1
 input_pin_2 = board.A2
 input_pin_3 = board.A3
+input_pin_4 = board.D24
 
 
 stasis_input = digitalio.DigitalInOut(input_pin_0)
@@ -41,8 +42,12 @@ happy_input = digitalio.DigitalInOut(input_pin_3)
 happy_input.direction = digitalio.Direction.INPUT
 happy_input.pull = digitalio.Pull.DOWN
 
+test_input = digitalio.DigitalInOut(input_pin_4)
+test_input.direction = digitalio.Direction.INPUT
+test_input.pull = digitalio.Pull.DOWN
 
-all_inputs = [stasis_input, idle_input, angry_input, happy_input]
+
+all_inputs = [stasis_input, idle_input, angry_input, happy_input, test_input]
 
 # The number of NeoPixels
 num_pixels = 72
@@ -90,7 +95,7 @@ hb_stasis_data = {
 
 hb_idle_data = {
     'color': (0.02, 0.9, 0.02),
-    'counter_start': 300, 
+    'counter_start': 300,
     'second_beat_start': 120,
     'second_beat_end': 130,
     'drop_rate': 3,
@@ -100,11 +105,11 @@ hb_idle_data = {
 
 hb_angry_data = {
     'color': (0.9, 0.02, 0.02),
-    'counter_start': 100,
-    'second_beat_start': 60,
-    'second_beat_end': 65,
+    'counter_start': 130,
+    'second_beat_start': 75,
+    'second_beat_end': 80,
     'drop_rate': 1,
-    'beat_interval': 0.8, # seconds
+    'beat_interval': 0.5, # seconds
     'last_heartbeat': time.time()
 }
 
@@ -114,10 +119,11 @@ heartbeat_data_map = {
     'stasis': hb_stasis_data,
     'idle': hb_idle_data,
     'angry': hb_angry_data,
-    'happy': hb_happy_data, 
+    'happy': hb_happy_data,
+    'test': hb_happy_data,
 }
 
-# vape data
+#vape data
 vape_stasis_data = {}
 vape_idle_data = {
     'total_time': 10000,
@@ -150,11 +156,23 @@ vape_happy_data = {
     'vape_3_end': 200
 }
 
+vape_test_data = {
+    'total_time': 1000,
+    'rate': 1,
+    'vape_1_start': 50,
+    'vape_1_end': 950,
+    'vape_2_start': 50,
+    'vape_2_end': 950,
+    'vape_3_start': 50,
+    'vape_3_end': 950 
+}
+
 vape_data_map = {
     'stasis': vape_stasis_data,
     'idle': vape_idle_data,
     'angry': vape_angry_data,
-    'happy': vape_happy_data, 
+    'happy': vape_happy_data,
+    'test': vape_test_data,
 }
 
 def set_pixels_color(color):
@@ -277,24 +295,22 @@ def handle_vapes(data, vape_counter):
 
         vape.duty_cycle = power
 
-        if power > 0:
-            print(f'vape {i + 1} is running')
-
     return (vape_counter + rate) % total_time
 
 def happy_mode_special(dt):
     rainbow_cycle(dt, 0.001)
 
 
-old_mode = 'stasis'
+old_mode = 'test'
 loop_counter = 0
+print(f'starting mode {old_mode}')
 while True:
     now = time.time()
     mode = get_mode_from_inputs(old_mode)
 
     # If this is a mode transition, clear lights and vapes
     if mode != old_mode:
-        print(f'setting mode to {mode}')
+        print(f'changing mode to {mode}')
         set_pixels_color(BLACK)
         set_board_pixel_color(BLACK)
         set_all_vape_power(0)
@@ -310,7 +326,7 @@ while True:
 
 
     # run special modes:
-    if mode == 'happy':
+    if mode in ['happy', 'test']:
         happy_mode_special(loop_counter)
 
     loop_counter = (loop_counter + 1) % 1000
