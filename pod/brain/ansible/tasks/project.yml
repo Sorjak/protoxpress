@@ -1,47 +1,25 @@
 - name: Clone project
   git:
     repo: 'https://github.com/Sorjak/protoxpress.git'
-    dest: "$HOME/protoxpress"
+    dest: "{{ repo_home }}"
     clone: yes
     update: yes
 
-- name: Move nginx config
-  copy:
-    remote_src: true
-    src: "$HOME/protoxpress/pod/brain/nginx.conf"
-    dest: /etc/ansible/nginx.conf
-
-- name: Move systemd config
-  copy:
-    remote_src: true
-    src: "$HOME/protoxpress/pod/brain/podbrain.service"
-    dest: /etc/ansible/podbrain.service
-
-- name: Create app dir
+- name: Create app dir symlink
   become: true
   file:
-    path: /srv/app
-    state: directory
-    owner: "{{ ansible_user }}"
-
-- name: Create static dir
-  become: true
-  file:
-    path: /var/www/static
-    state: directory
-    owner: "{{ ansible_user }}"
-
-- name: Move app dir
-  copy:
-    remote_src: true
-    src: "$HOME/protoxpress/pod/brain/app/"
+    src: "{{ repo_home }}/pod/brain/app/"
     dest: /srv/app
+    owner: "{{ ansible_user }}"
+    state: link
 
-- name: Move static dir
-  copy:
-    remote_src: true
-    src: "$HOME/protoxpress/pod/brain/static/"
+- name: Create static dir symlink
+  become: true
+  file:
+    src: "{{ repo_home }}/pod/brain/static/"
     dest: /var/www/static
+    owner: "{{ ansible_user }}"
+    state: link
 
 - name: Create virtual environment for app
   shell: "$HOME/.pyenv/versions/3.12.9/bin/python -m venv /srv/app/.venv"
@@ -50,5 +28,5 @@
 
 - name: Install requirements in venv
   pip:
-    requirements: "$HOME/protoxpress/pod/brain/requirements.txt"
+    requirements: "{{ repo_home }}/pod/brain/requirements.txt"
     virtualenv: /srv/app/.venv

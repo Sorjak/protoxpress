@@ -2,6 +2,7 @@
   hosts: protohosts
   vars:
     swap_size_mb: 1024
+    repo_home: "/home/{{ansible_user}}/protoxpress"
   tasks:
     - name: Initial setup
       ansible.builtin.include_tasks:

@@ -1,30 +1,19 @@
-import time
-
 import click
 
-from app.lib import set_scene, set_scenes
+from app.lib import set_action
 
 @click.group()
 def cli():
     pass
 
 @cli.command()
-@click.argument('scene')
-def set_scene(scene):
+@click.argument('action')
+def set_action(action):
     try:
-        set_scene(scene)
+        set_action(action)
     except Exception as e:
         print(e)
 
-
-@cli.command()
-@click.argument('scenes', nargs=-1)
-def set_scenes(scenes):
-    print(f'Setting scenes: {scenes}')
-    try:
-        set_scenes(scenes)
-    except Exception as e:
-        print(e)
 
 if __name__ == '__main__':
     cli()

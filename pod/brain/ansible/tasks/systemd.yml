@@ -1,10 +1,9 @@
 - name: Add systemd unit file
   become: true
   file:
-    src: /etc/ansible/podbrain.service
+    src: "{{repo_home}}/pod/brain/podbrain.service"
     dest: /etc/systemd/system/podbrain.service
     state: link
-
 
 - name: Ensure app service is running
   become: true

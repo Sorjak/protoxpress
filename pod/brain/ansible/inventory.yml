@@ -2,4 +2,4 @@ protohosts:
   hosts:
     podbrain:
       ansible_user: uli
-      ansible_host: 10.10.255.161
+      ansible_host: 192.168.8.130

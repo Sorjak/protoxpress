@@ -5,12 +5,12 @@
     state: latest
     update_cache: yes
 
-- name: Add nginx configuration
+- name: Move nginx config
   become: true
-  copy:
-    remote_src: true
-    src: /etc/ansible/nginx.conf
+  file:
+    src: "{{repo_home}}/pod/brain/nginx.conf"
     dest: /etc/nginx/nginx.conf
+    state: link
 
 - name: Ensure nginx is running
   become: true

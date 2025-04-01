@@ -2,7 +2,7 @@ import os
 
 from flask import Flask, request
 
-from .lib import init_board, set_scene
+from .lib import init_board, set_action
 
 def create_app():
     # create and configure the app
@@ -14,17 +14,17 @@ def create_app():
     def debug():
         return 'Hello, World!'
     
-    @app.post('/scene')
-    def post_set_scene():
-        scene = request.json.get('scene')
-        if not scene:
-            return {'success': False, 'error': 'No scene provided'}, 400
+    @app.post('/action')
+    def post_set_action():
+        action = request.json.get('action')
+        if not action:
+            return {'success': False, 'error': 'No action provided'}, 400
 
         try:
-            set_scene(scene)
+            set_action(action)
         except Exception as e:
             return {'success': False, 'error': str(e)}, 400
 
-        return {'success': True, 'msg': f"Set scene {scene}"}
+        return {'success': True, 'msg': f"Set action {action}"}
 
     return app
