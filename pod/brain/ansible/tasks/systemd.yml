@@ -1,7 +1,7 @@
 - name: Add systemd unit file
   become: true
   file:
-    src: "{{repo_home}}/pod/brain/podbrain.service"
+    src: "{{repo_home}}/pod/brain/config/podbrain.service"
     dest: /etc/systemd/system/podbrain.service
     state: link
 
