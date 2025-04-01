@@ -1,10 +1,14 @@
 import click
 
-from app.lib import set_action
+from app.lib import set_action, get_actions
 
 @click.group()
 def cli():
     pass
+
+@cli.command()
+def show_actions():
+    print(get_actions())
 
 @cli.command()
 @click.argument('action')

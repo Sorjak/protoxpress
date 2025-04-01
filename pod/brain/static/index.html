@@ -5,27 +5,22 @@
     <body>
         <h1>ProtoXpress</h1>
 
-        <p>Set scene:</p>
-        <ul>
-            <li><a class="api-link" href="#">Initial</a></li>
-            <li><a class="api-link" href="#">Debone</a></li>
-            <li><a class="api-link" href="#">Error</a></li>
-            <li><a class="api-link" href="#">Finale</a></li>
-        </ul>
+        <p>Send Action:</p>
+        <ul id="action-list"></ul>
 
     </body>
 
     <script type="text/javascript">
-        const api_url = '/api/scene'
-        async function setScene(scene) {
-            console.log(`Setting scene ${scene}`);
+        const action_url = '/api/actions'
+        async function setAction(action) {
+            console.log(`Setting action ${action}`);
 
-            const response = await fetch(api_url, {
+            const response = await fetch(action_url, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({'scene': scene.toLowerCase()})
+                body: JSON.stringify({'action': action.toLowerCase()})
             });
 
             if (!response.ok) { 
@@ -36,14 +31,32 @@
             return;
         }
 
-        var els = document.getElementsByClassName("api-link");
-
-        [].forEach.call(els, function(el) {
-            el.onclick = (evt) => {
-                evt.preventDefault();
-                setScene(evt.target.innerText);
+        async function createActionLinks() {
+            console.log(`Getting actions`);
+            const response = await fetch(action_url, {method: 'GET'});
+            if (!response.ok) { 
+                console.error(response.json()); return; 
             }
-        });
+
+            console.log('Creating links');
+            const listElem = document.getElementById('action-list');
+            const json_data = await response.json();
+            json_data.msg.forEach((x) => {
+                listElem.insertAdjacentHTML('beforeend', `<li><a class="api-link" href="#">${x}</a></li>`)
+            });
+
+            var els = document.getElementsByClassName("api-link");
+            console.log(els);
+
+            [].forEach.call(els, function(el) {
+                el.onclick = (evt) => {
+                    evt.preventDefault();
+                    setAction(evt.target.innerText);
+                }
+            });
+        }
+
+        createActionLinks();
     </script>
 
 </html>

@@ -1,9 +1,11 @@
 import time
 
-import RPi.GPIO as GPIO
+try:
+    import RPi.GPIO as GPIO
+except RuntimeError as e:
+    GPIO = None
+    pass
 
-GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BCM)
 
 # These are the inputs that can be set on the SCORPIO microcontrollers.
 # Each input specifies a scene controlling lights, sound, and smoke, which are
@@ -28,9 +30,18 @@ mc_pin_map = {
 }
 
 def init_board():
+    if not GPIO:
+        return
+
+    GPIO.setwarnings(False)
+    GPIO.setmode(GPIO.BCM)
+
     for pins in mc_pin_map.values():
         for pin in pins:
             GPIO.setup(pin, GPIO.OUT)
+
+def get_actions() -> list[str]:
+    return list(actions.keys())
 
 def get_action_pin_states(action: str) -> int:
     pin_states = actions.get(action, [])
@@ -45,6 +56,9 @@ def set_pins_to_states(pins: list[int], desired_state: list[str]):
         GPIO.output(pins[i], to_set)
 
 def set_action(action: str):
+    if not GPIO:
+        return
+
     pin_states = get_action_pin_states(action)
 
     # Set the appropriate pins using the action table
