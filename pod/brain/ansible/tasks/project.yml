@@ -17,8 +17,7 @@
   become: true
   file:
     src: "{{ repo_home }}/pod/brain/static/"
-    dest: /var/www/static
-    owner: "{{ ansible_user }}"
+    dest: /srv/static
     state: link
 
 - name: Create virtual environment for app
