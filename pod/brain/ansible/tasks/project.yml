@@ -18,6 +18,7 @@
   file:
     src: "{{ repo_home }}/pod/brain/static/"
     dest: /srv/static
+    owner: "{{ ansible_user }}"
     state: link
 
 - name: Create virtual environment for app
