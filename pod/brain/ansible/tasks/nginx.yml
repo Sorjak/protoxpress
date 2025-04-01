@@ -8,7 +8,7 @@
 - name: Move nginx config
   become: true
   file:
-    src: "{{repo_home}}/pod/brain/nginx.conf"
+    src: "{{repo_home}}/pod/brain/config/nginx.conf"
     dest: /etc/nginx/nginx.conf
     state: link
 
