@@ -1,5 +1,9 @@
 protohosts:
   hosts:
-    podbrain:
+    # podbrain:
+    #   ansible_user: uli
+    #   ansible_host: 192.168.8.130
+
+    podbrain2:
       ansible_user: uli
-      ansible_host: 192.168.8.130
+      ansible_host: 192.168.8.131

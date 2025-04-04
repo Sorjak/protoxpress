@@ -4,6 +4,7 @@
     dest: "{{ repo_home }}"
     clone: yes
     update: yes
+    force: true
 
 - name: Create app dir symlink
   become: true

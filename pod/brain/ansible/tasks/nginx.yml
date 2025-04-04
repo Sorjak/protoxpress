@@ -5,12 +5,25 @@
     state: latest
     update_cache: yes
 
-- name: Move nginx config
+- name: Remove old nginx.conf
   become: true
   file:
+    path: /etc/nginx/nginx.conf
+    state: absent
+
+- name: Move nginx config
+  become: true
+  copy:
+    remote_src: yes
     src: "{{repo_home}}/pod/brain/config/nginx.conf"
     dest: /etc/nginx/nginx.conf
-    state: link
+
+- name: Run as user
+  become: true
+  lineinfile:
+    path: /etc/nginx/nginx.conf
+    insertbefore: '^worker_processes auto;'
+    line: "user {{ ansible_user }};"
 
 - name: Ensure nginx is running
   become: true

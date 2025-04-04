@@ -5,6 +5,11 @@
     dest: /etc/systemd/system/podbrain.service
     state: link
 
+- name: Just force systemd to reread configs
+  become: true
+  systemd_service:
+    daemon_reload: true
+
 - name: Ensure app service is running
   become: true
   systemd:
