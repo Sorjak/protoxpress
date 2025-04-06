@@ -8,6 +8,15 @@
         <p>Send Action:</p>
         <ul id="action-list"></ul>
 
+        <button id="play-video-btn">Play Video</button>
+        <button id="hide-video-btn" style="display: none;">Hide Video</button>
+        <div id="video-container" style="display: none;">
+            <video id="video-player" autoplay loop muted style="width: 1280px; height: 800px;">
+                <source src="videos/dvd-old.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
     </body>
 
     <script type="text/javascript">
@@ -57,6 +66,30 @@
         }
 
         createActionLinks();
+
+        // Add logic to play the video when the button is clicked
+        const playVideoBtn = document.getElementById('play-video-btn');
+        const videoContainer = document.getElementById('video-container');
+        const hideVideoBtn = document.getElementById('hide-video-btn');
+        const videoPlayer = document.getElementById('video-player');
+
+        playVideoBtn.addEventListener('click', () => {
+            videoPlayer.currentTime = 0; // Reset video to the beginning
+            videoContainer.style.display = 'block';
+            hideVideoBtn.style.display = 'inline-block';
+            videoPlayer.play(); // Ensure the video starts playing
+        });
+
+        hideVideoBtn.addEventListener('click', () => {
+            videoContainer.style.display = 'none';
+            hideVideoBtn.style.display = 'none';
+            videoPlayer.pause();
+            videoPlayer.currentTime = 0;
+
+            // Release video resources
+            videoPlayer.removeAttribute('src'); // Remove the video source
+            videoPlayer.load(); // Stop loading and release resources
+        });
     </script>
 
 </html>
