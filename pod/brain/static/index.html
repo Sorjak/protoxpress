@@ -2,7 +2,7 @@
     <head>
         <style>
             /* Style for the new group container */
-            #main-controls {
+            #main-controls-ui {
                 width: 1280px;
                 height: 800px;
                 display: flex;
@@ -13,23 +13,23 @@
                 box-sizing: border-box;
             }
 
-            /* Style for the main-controls-row */
-            #main-controls-row {
+            /* Style for the main-controls-ui-row */
+            #main-controls-ui-row {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                flex-gmain-controls-row: 1;
+                flex-gmain-controls-ui-row: 1;
             }
 
             /* Style for the columns */
-            #main-controls-col-1 {
+            #main-controls-ui-col-1 {
                 flex: 1;
                 display: flex;
                 justify-content: center;
                 align-items: center;
             }
 
-            #main-controls-col-2 {
+            #main-controls-ui-col-2 {
                 flex: 1;
                 display: flex;
                 flex-direction: column;
@@ -44,9 +44,27 @@
             }
 
             /* Style for the image */
-            #main-controls-col-1 img {
+            #main-controls-ui-col-1 img {
                 max-width: 100%;
                 max-height: 100%;
+            }
+
+            /* Ensure the photo-mode image fits within a 1280x800 square and is left-justified */
+            #photo-mode-ui img {
+                width: 100%;
+                height: 100%;
+                max-width: 1280px;
+                max-height: 800px;
+                object-fit: contain;
+                display: block;
+                margin: 0;
+            }
+
+            /* Hide groups by default */
+            #screensaver-container,
+            #main-controls-ui,
+            #photo-mode-ui {
+                display: none;
             }
         </style>
     </head>
@@ -56,26 +74,31 @@
         <p>Send Action:</p>
         <ul id="action-list"></ul>
 
-        <button id="play-video-btn">Play Video</button>
-        <div id="screensaver-vp" style="display: none;">
-            <video id="video-player" autoplay loop muted style="width: 1280px; height: 800px;">
+        <button id="test-ui-btn">Test UI</button>
+        <div id="screensaver-container" style="display: none;">
+            <video id="screensaver-vp" autoplay loop muted style="width: 1280px; height: 800px;">
                 <source src="videos/dvd-old.mp4" type="video/mp4">
-                Your bmain-controls-rowser does not support the video tag.
+                Your browser does not support the video tag.
             </video>
         </div>
 
-        <div id="main-controls">
-            <div id="main-controls-row">
-                <div id="main-controls-col-1">
+        <div id="main-controls-ui">
+            <div id="main-controls-ui-row">
+                <div id="main-controls-ui-col-1">
                     <img src="path/to/image.jpg" alt="Example Image">
                 </div>
-                <div id="main-controls-col-2">
+                <div id="main-controls-ui-col-2">
                     <button id="photo-mode-btn">Photo Mode</button>
                     <button id="start-sequence-btn">Start Sequence</button>
                     <button id="do-not-touch-btn">DO NOT TOUCH</button>
                 </div>
             </div>
             <button id="secret-party-mode-btn">Party Time</button>
+        </div>
+
+        <div id="photo-mode-ui">
+            <img src="path/to/photo-mode-image.jpg" alt="Photo Mode Image" style="width: 100%; height: auto;">
+            <button id="return-to-main-btn">Return to Main</button>
         </div>
 
     </body>
@@ -129,23 +152,26 @@
         createActionLinks();
 
         // Add logic to play the video when the button is clicked
-        const playVideoBtn = document.getElementById('play-video-btn');
-        const videoContainer = document.getElementById('screensaver-vp');
-        const screensaverVp = document.getElementById('video-player');
+        const testUiBtn = document.getElementById('test-ui-btn');
+        const screensaverContainer = document.getElementById('screensaver-container');
+        const screensaverVp = document.getElementById('screensaver-vp');
 
-        playVideoBtn.addEventListener('click', () => {
+        testUiBtn.addEventListener('click', () => {
             screensaverVp.currentTime = 0; // Reset video to the beginning
-            videoContainer.style.display = 'block';
+            screensaverContainer.style.display = 'block';
             hideVideoBtn.style.display = 'inline-block';
             screensaverVp.play(); // Ensure the video starts playing
         });
 
         // Add logic to hide the video when clicking on it
         screensaverVp.addEventListener('click', () => {
-            videoContainer.style.display = 'none';
-            hideVideoBtn.style.display = 'none';
+            screensaverContainer.style.display = 'none';
             screensaverVp.pause();
             screensaverVp.currentTime = 0;
+
+            // Show the main-controls-ui group
+            const mainControls = document.getElementById('main-controls-ui');
+            mainControls.style.display = 'flex';
 
             // Release video resources
             screensaverVp.removeAttribute('src'); // Remove the video source
@@ -155,6 +181,14 @@
         // Add event listeners for the new buttons
         document.getElementById('photo-mode-btn').addEventListener('click', () => {
             console.log('Photo Mode clicked');
+
+            // Hide the main-controls-ui group
+            const mainControls = document.getElementById('main-controls-ui');
+            mainControls.style.display = 'none';
+
+            // Show the photo-mode-ui group
+            const photoModeUi = document.getElementById('photo-mode-ui');
+            photoModeUi.style.display = 'block';
         });
 
         document.getElementById('start-sequence-btn').addEventListener('click', () => {
@@ -167,6 +201,27 @@
 
         document.getElementById('secret-party-mode-btn').addEventListener('click', () => {
             console.log('Secret Party Mode clicked');
+        });
+
+        document.getElementById('return-to-main-btn').addEventListener('click', () => {
+            console.log('Return to Main clicked');
+
+            // Check if photo-mode-ui is active
+            const photoModeUi = document.getElementById('photo-mode-ui');
+            if (photoModeUi.style.display === 'block') {
+                console.log('returning from photo mode');
+            }
+
+            // Hide all groups
+            const groups = ['screensaver-container', 'main-controls-ui', 'photo-mode-ui'];
+            groups.forEach(groupId => {
+                const group = document.getElementById(groupId);
+                if (group) group.style.display = 'none';
+            });
+
+            // Show the main-controls-ui group
+            const mainControls = document.getElementById('main-controls-ui');
+            mainControls.style.display = 'flex';
         });
     </script>
 
