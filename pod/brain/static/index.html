@@ -1,6 +1,54 @@
 <html>
     <head>
+        <style>
+            /* Style for the new group container */
+            #main-controls {
+                width: 1280px;
+                height: 800px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                border: 1px solid #ccc;
+                padding: 10px;
+                box-sizing: border-box;
+            }
 
+            /* Style for the main-controls-row */
+            #main-controls-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-gmain-controls-row: 1;
+            }
+
+            /* Style for the columns */
+            #main-controls-col-1 {
+                flex: 1;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            #main-controls-col-2 {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 10px;
+            }
+
+            /* Style for the right-justified button */
+            #secret-party-mode-btn {
+                align-self: flex-end;
+            }
+
+            /* Style for the image */
+            #main-controls-col-1 img {
+                max-width: 100%;
+                max-height: 100%;
+            }
+        </style>
     </head>
     <body>
         <h1>ProtoXpress</h1>
@@ -9,12 +57,25 @@
         <ul id="action-list"></ul>
 
         <button id="play-video-btn">Play Video</button>
-        <button id="hide-video-btn" style="display: none;">Hide Video</button>
-        <div id="video-container" style="display: none;">
+        <div id="screensaver-vp" style="display: none;">
             <video id="video-player" autoplay loop muted style="width: 1280px; height: 800px;">
                 <source src="videos/dvd-old.mp4" type="video/mp4">
-                Your browser does not support the video tag.
+                Your bmain-controls-rowser does not support the video tag.
             </video>
+        </div>
+
+        <div id="main-controls">
+            <div id="main-controls-row">
+                <div id="main-controls-col-1">
+                    <img src="path/to/image.jpg" alt="Example Image">
+                </div>
+                <div id="main-controls-col-2">
+                    <button id="photo-mode-btn">Photo Mode</button>
+                    <button id="start-sequence-btn">Start Sequence</button>
+                    <button id="do-not-touch-btn">DO NOT TOUCH</button>
+                </div>
+            </div>
+            <button id="secret-party-mode-btn">Party Time</button>
         </div>
 
     </body>
@@ -69,26 +130,43 @@
 
         // Add logic to play the video when the button is clicked
         const playVideoBtn = document.getElementById('play-video-btn');
-        const videoContainer = document.getElementById('video-container');
-        const hideVideoBtn = document.getElementById('hide-video-btn');
-        const videoPlayer = document.getElementById('video-player');
+        const videoContainer = document.getElementById('screensaver-vp');
+        const screensaverVp = document.getElementById('video-player');
 
         playVideoBtn.addEventListener('click', () => {
-            videoPlayer.currentTime = 0; // Reset video to the beginning
+            screensaverVp.currentTime = 0; // Reset video to the beginning
             videoContainer.style.display = 'block';
             hideVideoBtn.style.display = 'inline-block';
-            videoPlayer.play(); // Ensure the video starts playing
+            screensaverVp.play(); // Ensure the video starts playing
         });
 
-        hideVideoBtn.addEventListener('click', () => {
+        // Add logic to hide the video when clicking on it
+        screensaverVp.addEventListener('click', () => {
             videoContainer.style.display = 'none';
             hideVideoBtn.style.display = 'none';
-            videoPlayer.pause();
-            videoPlayer.currentTime = 0;
+            screensaverVp.pause();
+            screensaverVp.currentTime = 0;
 
             // Release video resources
-            videoPlayer.removeAttribute('src'); // Remove the video source
-            videoPlayer.load(); // Stop loading and release resources
+            screensaverVp.removeAttribute('src'); // Remove the video source
+            screensaverVp.load(); // Stop loading and release resources
+        });
+
+        // Add event listeners for the new buttons
+        document.getElementById('photo-mode-btn').addEventListener('click', () => {
+            console.log('Photo Mode clicked');
+        });
+
+        document.getElementById('start-sequence-btn').addEventListener('click', () => {
+            console.log('Start Sequence clicked');
+        });
+
+        document.getElementById('do-not-touch-btn').addEventListener('click', () => {
+            console.log('Do Not Touch clicked');
+        });
+
+        document.getElementById('secret-party-mode-btn').addEventListener('click', () => {
+            console.log('Secret Party Mode clicked');
         });
     </script>
 
