@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProtoXpress Init</title>
+    <link rel="stylesheet" href="css/landing-screensaver.css">
+    <style>
+        #screensaver-vp {
+            display: none;
+        }
+        #intro-text {
+            font-size: 10rem; /* Increased font size for title styling */
+            font-weight: bold; /* Added bold styling */
+            text-align: center;
+            margin-top: 20%;
+            color: #333; /* Optional: Adjust color for better visibility */
+        }
+    </style>
+</head>
+<body>
+    <div id="intro-text">Welcome to ProtoXpress</div>
+    <video id="screensaver-vp" autoplay loop muted onclick="window.location.href='index.html'">
+        <source src="videos/dvd-old.mp4" type="video/mp4" onerror="console.error('Video failed to load: videos/dvd-old.mp4')">
+        Your browser does not support the video tag or the video file could not be loaded.
+    </video>
+    <script>
+        setTimeout(() => {
+            document.getElementById('intro-text').style.display = 'none';
+            document.getElementById('screensaver-vp').style.display = 'block';
+        }, 3000);
+    </script>
+</body>
+</html>
