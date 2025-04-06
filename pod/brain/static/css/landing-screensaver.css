@@ -1,0 +1,14 @@
+/* Style the video: 100% width and height to cover the entire window */
+#screensaver-vp {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* object-fit: cover; */
+    display: none; /* Hide the video by default */
+  }
+
+  body {
+    background-color: grey;
+  }
