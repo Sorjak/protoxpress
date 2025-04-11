@@ -6,6 +6,13 @@ import time
 import board
 import neopixel
 
+from adafruit_led_animation.animation.solid import Solid
+from adafruit_led_animation.animation.comet import Comet
+from adafruit_led_animation.animation.rainbowsparkle import RainbowSparkle
+
+from adafruit_led_animation.group import AnimationGroup
+from adafruit_led_animation import color
+
 from rainbowio import colorwheel
 
 first_input = digitalio.DigitalInOut(board.A0)
@@ -21,9 +28,20 @@ board_pixel = neopixel.NeoPixel(board.NEOPIXEL, 1, brightness=1.0)
 
 num_pixels = 320 * 1
 strand0 = neopixel.NeoPixel(board.NEOPIXEL0, num_pixels, brightness=1.0)
-strand1 = neopixel.NeoPixel(board.NEOPIXEL1, num_pixels, brightness=1.0)
+strand1 = neopixel.NeoPixel(board.NEOPIXEL1, num_pixels * 2, brightness=1.0)
+strand2 = neopixel.NeoPixel(board.NEOPIXEL2, num_pixels * 2, brightness=0.8)
 
-all_strands = [strand0, strand1]
+
+all_strands = [strand0, strand1, strand2]
+
+ag = AnimationGroup(
+    Comet(strand0, speed=0.005, color=color.PURPLE, tail_length=20, bounce=True),
+    Comet(strand1, speed=0.005, color=color.BLUE, tail_length=20, bounce=True),
+    # Comet(strand2, speed=0.005, color=color.GREEN, tail_length=20, bounce=True)
+    RainbowSparkle(strand2, speed=0.1, num_sparkles=15)
+    # Solid(strand2, color=color.WHITE)
+)
+
 
 scenes = {
     0: "none",
@@ -58,14 +76,6 @@ def get_input_value(values: list[bool]) -> int:
 
     return val
 
-def rainbow_cycle(strand, wait):
-    for j in range(255):
-        for i in range(num_pixels):
-            rc_index = (i * 256 // num_pixels) + j
-            strand[i] = colorwheel(rc_index & 255)
-        strand.show()
-        time.sleep(wait)
-
 def set_pixels(color):
     print(f'setting strand to {color}')
     for strand in all_strands:
@@ -93,10 +103,11 @@ while True:
         old_scene = scene
 
     board_pixel.show()
-    # strand0.show()
 
     loop_counter += 1
     loop_counter = loop_counter % 1000
 
     if loop_counter == 0:
         print(f'new loop, last scene was: {old_scene}')
+
+    ag.animate()
