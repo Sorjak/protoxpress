@@ -1,113 +1,107 @@
-import math
-
-import pwmio
-import digitalio
 import time
 import board
 import neopixel
 
-from adafruit_led_animation.animation.solid import Solid
+from adafruit_led_animation.animation.blink import Blink
+from adafruit_led_animation.animation.sparklepulse import SparklePulse
 from adafruit_led_animation.animation.comet import Comet
+from adafruit_led_animation.animation.chase import Chase
+from adafruit_led_animation.animation.pulse import Pulse
+from adafruit_led_animation.animation.sparkle import Sparkle
+from adafruit_led_animation.animation.rainbowchase import RainbowChase
 from adafruit_led_animation.animation.rainbowsparkle import RainbowSparkle
+from adafruit_led_animation.animation.rainbowcomet import RainbowComet
+from adafruit_led_animation.animation.solid import Solid
+from adafruit_led_animation.animation.colorcycle import ColorCycle
+from adafruit_led_animation.animation.rainbow import Rainbow
 
+from adafruit_led_animation.sequence import AnimationSequence
 from adafruit_led_animation.group import AnimationGroup
 from adafruit_led_animation import color
 
-from rainbowio import colorwheel
+from scenes import BaseController
 
-first_input = digitalio.DigitalInOut(board.A0)
-second_input = digitalio.DigitalInOut(board.A1)
-third_input = digitalio.DigitalInOut(board.A2)
-inputs = [third_input, second_input, first_input]
+PIXELS_PER_STRAND = 320
 
-for ipt in inputs:
-    ipt.direction = digitalio.Direction.INPUT
-    ipt.pull = digitalio.Pull.DOWN
+class LightController(BaseController):
+    name = 'LightController'
 
-board_pixel = neopixel.NeoPixel(board.NEOPIXEL, 1, brightness=1.0)
+    all_strands = []
+    config = {}
+    scene_start = 0
+    max_duration = 0
 
-num_pixels = 320 * 1
-strand0 = neopixel.NeoPixel(board.NEOPIXEL0, num_pixels, brightness=1.0)
-strand1 = neopixel.NeoPixel(board.NEOPIXEL1, num_pixels * 2, brightness=1.0)
-strand2 = neopixel.NeoPixel(board.NEOPIXEL2, num_pixels * 2, brightness=0.8)
+    def __init__(self):
+        left = neopixel.NeoPixel(board.NEOPIXEL0, PIXELS_PER_STRAND, brightness=1.0)
+        right = neopixel.NeoPixel(board.NEOPIXEL1, PIXELS_PER_STRAND, brightness=0.8)
+        photo = neopixel.NeoPixel(board.NEOPIXEL2, PIXELS_PER_STRAND * 2, brightness=0.8)
 
+        self.all_strands = [left, right, photo]
+        self.config = {
+            'abort': {'duration': 1},
+            'test': {
+                'duration': 10, # milliseconds should this animation run for?
+                'animation': AnimationGroup (
+                    Comet(left, speed=0.001, color=color.PURPLE, tail_length=20, bounce=True),
+                    Comet(right, speed=0.001, color=color.BLUE, tail_length=20, bounce=True),
+                    RainbowSparkle(photo, speed=0.1, num_sparkles=15)
+                )
+            },
+            'init': {
+                'duration': 15, 
+                'animation': AnimationGroup (
+                    RainbowComet(left, speed=0.001, tail_length=300, reverse=False),
+                    RainbowComet(right, speed=0.001, tail_length=300, reverse=False),
+                    Blink(photo, speed=0.01, color=color.GREEN)
+                ),
+                'next': 'happy'
+            },
+            'happy': {
+                'duration': 5, 
+                'animation': AnimationGroup (
+                    Solid(left, color.CYAN),
+                    # RainbowComet(right, speed=0.001, tail_length=300, reverse=False),
+                    # Blink(photo, speed=0.01, color=color.GREEN)
+                ),
+            },
+            'sad': {},
+            'emergency': {},
+            'photo': {
+                'duration': -1, 
+                'animation': RainbowSparkle(photo, speed=0.1, num_sparkles=15)
+            },
+        }
 
-all_strands = [strand0, strand1, strand2]
+    def set_pixels(self, new_color: tuple):
+        for strand in self.all_strands:
+            strand.fill(new_color)
+            strand.show()
 
-ag = AnimationGroup(
-    Comet(strand0, speed=0.005, color=color.PURPLE, tail_length=20, bounce=True),
-    Comet(strand1, speed=0.005, color=color.BLUE, tail_length=20, bounce=True),
-    # Comet(strand2, speed=0.005, color=color.GREEN, tail_length=20, bounce=True)
-    RainbowSparkle(strand2, speed=0.1, num_sparkles=15)
-    # Solid(strand2, color=color.WHITE)
-)
+    def init_scene(self):
+        super().init_scene()
 
+        self.scene_start = time.monotonic()
+        print(f'Starting scene {self.current_scene} at {self.scene_start}')
 
-scenes = {
-    0: "none",
-    1: "abort",
-    2: "test",
-    3: "init",
-    4: "happy",
-    5: "sad",
-    6: "emergency",
-    7: "photo"
-}
+    def exit_scene(self):
+        super().exit_scene()
 
-color_ref = {
-    "none":   (0, 0, 0),        # 000
-    "abort": (0, 0, 255),      # 001
-    "test": (0, 255, 0),      # 010
-    "init": (0, 255, 255),    # 011
-    "happy": (255, 0, 0),      # 100
-    "sad": (255, 0, 255),    # 101
-    "emergency": (255, 255, 0),    # 110
-    "photo": (255, 255, 255)   # 111
-}
+        self.set_pixels(color.BLACK)
+        print(f'Exiting scene {self.current_scene} at {self.scene_start}')
+    
+    def update(self):
+        if not self.current_config:
+            return
 
-def get_input_values() -> list[bool]:
-    return [x.value for x in inputs]
+        if animation := self.current_config.get('animation'):
+            animation.animate()
 
-def get_input_value(values: list[bool]) -> int:
-    val = 0
-    for idx, value in enumerate(values):
-        if value:
-            val = val ^ (2 ** idx)
+    def post_update(self):
+        if not self.current_config:
+            return
 
-    return val
+        now = time.monotonic()
+        if self.scene_start + self.scene_duration < now:
+            print(f'Exiting scene {self.current_scene} at {now}')
+            self.exit_scene()
 
-def set_pixels(color):
-    print(f'setting strand to {color}')
-    for strand in all_strands:
-        strand.fill(color)
-        strand.show()
-
-
-print(f'starting lights program')
-loop_counter = 0
-scene = 'none'
-old_scene = 'none'
-
-while True:
-    board_pixel[0] = (0, 0, 0)
-    values = get_input_values()
-    if any(values):
-        input_val = get_input_value(values)
-
-        scene = scenes.get(input_val)
-        print(f'changing to scene {scene}')
-
-        color = color_ref.get(scene)
-        board_pixel[0] = color
-        set_pixels(color)
-        old_scene = scene
-
-    board_pixel.show()
-
-    loop_counter += 1
-    loop_counter = loop_counter % 1000
-
-    if loop_counter == 0:
-        print(f'new loop, last scene was: {old_scene}')
-
-    ag.animate()
