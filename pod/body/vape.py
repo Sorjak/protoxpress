@@ -18,15 +18,17 @@ class VapeController(BaseController):
     max_duration = 0
 
     config = {
-        'abort': {},
+        'abort': {
+            'duration': 100,
+        },
         'test': {
-            'duration': 1200,
+            'duration': 1200, # how many loops should this scene last?
             'in': [
-                {'s': 0, 'e': 200},
+                {'s': 0, 'e': 200}, # At what points in the above duration should this vape be on?
                 {'s': 600, 'e': 800},
             ],
             'out': [
-                {'s': 300, 'e': 500},
+                {'s': 300, 'e': 500}, # same as above, but only for outer vapes
                 {'s': 900, 'e': 1100},
             ],
         },
@@ -36,11 +38,32 @@ class VapeController(BaseController):
                 {'s': 0, 'e': 400},
                 {'s': 600, 'e': 1000},
             ],
-            'out': [],     
+            'out': [],
         },
-        'happy': {},
-        'sad': {},
-        'emergency': {},
+        'happy': {
+            'duration': 1200,
+            'in': [],
+            'out': [
+                {'s': 300, 'e': 500},
+                {'s': 900, 'e': 1100},
+            ],
+        },
+        'sad': {
+            'duration': 1200,
+            'in': [],
+            'out': [
+                {'s': 300, 'e': 500},
+                {'s': 900, 'e': 1100},
+            ],
+        },
+        'emergency': {
+            'duration': 1200,
+            'in': [],
+            'out': [
+                {'s': 300, 'e': 500},
+                {'s': 900, 'e': 1100},
+            ],
+        },
         'photo': {},
     }
 

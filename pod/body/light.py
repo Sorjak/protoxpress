@@ -32,7 +32,7 @@ class LightController(BaseController):
     max_duration = 0
 
     def __init__(self):
-        left = neopixel.NeoPixel(board.NEOPIXEL0, PIXELS_PER_STRAND, brightness=1.0)
+        left = neopixel.NeoPixel(board.NEOPIXEL0, PIXELS_PER_STRAND, brightness=0.8)
         right = neopixel.NeoPixel(board.NEOPIXEL1, PIXELS_PER_STRAND, brightness=0.8)
         photo = neopixel.NeoPixel(board.NEOPIXEL2, PIXELS_PER_STRAND * 2, brightness=0.8)
 
@@ -40,12 +40,12 @@ class LightController(BaseController):
         self.config = {
             'abort': {'duration': 1},
             'test': {
-                'duration': 10, # milliseconds should this animation run for?
+                'duration': 10, # seconds should this animation run for?
                 'animation': AnimationGroup (
                     Comet(left, speed=0.001, color=color.PURPLE, tail_length=20, bounce=True),
                     Comet(right, speed=0.001, color=color.BLUE, tail_length=20, bounce=True),
                     RainbowSparkle(photo, speed=0.1, num_sparkles=15)
-                )
+                ),
             },
             'init': {
                 'duration': 15, 
@@ -54,18 +54,31 @@ class LightController(BaseController):
                     RainbowComet(right, speed=0.001, tail_length=300, reverse=False),
                     Blink(photo, speed=0.01, color=color.GREEN)
                 ),
-                'next': 'happy'
             },
             'happy': {
-                'duration': 5, 
+                'duration': 30, 
                 'animation': AnimationGroup (
-                    Solid(left, color.CYAN),
-                    # RainbowComet(right, speed=0.001, tail_length=300, reverse=False),
-                    # Blink(photo, speed=0.01, color=color.GREEN)
+                    RainbowChase(left, speed=0.01, size=100, spacing=30, reverse=False),
+                    RainbowChase(right, speed=0.01, size=100, spacing=30, reverse=False),
+                    RainbowSparkle(photo, speed=0.01, num_sparkles=15)
                 ),
             },
-            'sad': {},
-            'emergency': {},
+            'sad': {
+                'duration': 15,
+                'animation': AnimationGroup (
+                    RainbowChase(left, speed=0.01, size=100, spacing=30, reverse=True),
+                    RainbowChase(right, speed=0.01, size=100, spacing=30, reverse=True),
+                    Pulse(photo, speed=0.01, color=color.RED),
+                ),
+            },
+            'emergency': {
+                'duration': 15,
+                'animation': AnimationGroup (
+                    Blink(left, speed=0.001, color=color.RED),
+                    Blink(right, speed=0.001, color=color.RED),
+                    Pulse(photo, speed=0.001, color=color.RED),
+                ),
+            },
             'photo': {
                 'duration': -1, 
                 'animation': RainbowSparkle(photo, speed=0.1, num_sparkles=15)
