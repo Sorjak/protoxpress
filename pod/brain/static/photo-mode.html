@@ -1,35 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Photo Mode</title>
-        <style>
-            body {
-                margin: 0;
-                padding: 0;
-                background-image: url('assets/images/say-slime.png');
-                background-size: cover; 
-                background-repeat: no-repeat;
-                background-position:top left;
-            }
-            .exit-button {
-                position: absolute;
-                top: 40px;
-                left: 118px;
-                padding: 10px 20px;
-                background-color: #007BFF;
-                color: white;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-            }
-            .top-left-button:hover {
-                background-color: #0056b3;
-            }
-        </style>
-    </head>
-    <body>
-        <button class="exit-button" onclick="window.location.href='main-menu.html'">Exit</button>
-    </body>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Mode</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('assets/images/say-slime.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: top left;
+        }
+
+        .exit-button {
+            position: fixed;
+            left: 119px;
+            top: 40px;
+            width: 178px;
+            height: 55px;
+            background-image: url('assets/images/abort-button.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: transparent;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+    <button class="exit-button" onclick="window.location.href='main-menu.html'"></button>
+</body>
+
 </html>
