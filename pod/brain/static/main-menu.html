@@ -78,14 +78,17 @@
         }, 30000);
     </script>
 </head>
-<div style="display: flex; align-items: center;">
-    <button class="photo-mode-button" onclick="window.location.href='photo-mode.html'"></button>
-    <button class="integrate-button">Integrate</button>
-    <button class="party-mode-button" onclick="window.location.href='party-mode.html'"></button>
-</div>
+<body>
+    <div style="display: flex; align-items: center;">
+        <button class="photo-mode-button" onclick="goToPage('photo-mode')"></button>
+        <button class="integrate-button" onclick="goToPage('integrate')">Integrate</button>
+        <button class="party-mode-button" onclick="goToPage('party-mode')"></button>
+    </div>
 
-<div>
-    <button class="danger-button" onclick="window.location.href='danger-mode.html'"></button>
-</div>
+    <div>
+        <button class="danger-button" onclick="goToPage('danger-mode')"></button>
+    </div>
+</body>
 
+<script type="text/javascript" src='js/index.js'></script>
 </html>

@@ -13,58 +13,6 @@
 
     </body>
 
-    <script type="text/javascript">
-        const action_url = '/api/actions'
-        async function setAction(action) {
-            console.log(`Setting action ${action}`);
-
-            const response = await fetch(action_url, {
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({'action': action.toLowerCase()})
-            });
-
-            if (!response.ok) { 
-                console.error(response.json()); return; 
-            }
-
-            console.log(await response.json());
-            return;
-        }
-
-        async function createActionLinks() {
-            console.log(`Getting actions`);
-            const response = await fetch(action_url, {method: 'GET'});
-            if (!response.ok) { 
-                console.error(response.json()); return; 
-            }
-
-            console.log('Creating links');
-            const listElem = document.getElementById('action-list');
-            const json_data = await response.json();
-            json_data.msg.forEach((x) => {
-                listElem.insertAdjacentHTML('beforeend', `<li><a class="api-link" href="#">${x}</a></li>`)
-            });
-
-            var els = document.getElementsByClassName("api-link");
-            console.log(els);
-
-            [].forEach.call(els, function(el) {
-                el.onclick = (evt) => {
-                    evt.preventDefault();
-                    setAction(evt.target.innerText);
-                }
-            });
-        }
-
-        // Add event listener for navigation button
-        document.getElementById('main-menu-button').onclick = () => {
-            window.location.href = 'main-menu.html';
-        };
-
-        createActionLinks();
-    </script>
+    <script type="text/javascript" src="js/index.js"></script>
 
 </html>
