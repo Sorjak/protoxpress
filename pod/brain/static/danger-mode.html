@@ -1,12 +1,15 @@
 <html>
+
 <head>
     <style>
         body {
             margin: 0;
             padding: 0;
+            background-color: black;
             background: url('assets/images/blank-frame_red.png') no-repeat center center fixed;
             background-size: cover;
         }
+
         .overlay {
             position: absolute;
             top: 0;
@@ -17,23 +20,26 @@
             background-size: contain;
             pointer-events: none;
         }
+
         .return-button {
-            position: absolute;
-            top: 40px;
+            position: fixed;
             left: 119px;
-            width: 177px;
-            height: 54px;
-            font-size: 16px;
-            background-color: white;
-            color: black;
+            top: 40px;
+            width: 178px;
+            height: 55px;
+            background-image: url('assets/images/abort-button.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: transparent;
             border: none;
-            border-radius: 5px;
-            cursor: pointer;
         }
     </style>
 </head>
+
 <body>
     <div class="overlay"></div>
-    <button class="return-button" onclick="window.location.href='main-menu.html'">Abort</button>
+    <button class="return-button" onclick="window.location.href='main-menu.html'"></button>
 </body>
+
 </html>
