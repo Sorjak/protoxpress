@@ -1,14 +1,66 @@
 <html lang="en">
-    <div style="display: flex; align-items: center;">
-        <img src="image.jpg" alt="Image" style="width: 50%; height: auto;">
-        <div style="width: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-            <button style="margin: 5px;" onclick="window.location.href='photo-mode.html'">Photo Mode</button>
-            <button style="margin: 5px;">Fill Smoke</button>
-            <button style="margin: 5px;" onclick="window.location.href='party-mode.html'">Party Mode</button>
-        </div>
-    </div>
 
-    <div style="display: flex; justify-content: flex-end;">
-        <button onclick="window.location.href='danger-mode.html'">Don't Touch!<br>(Emergency)</button>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Menu</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('assets/images/temp-main-menu-bg.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: top left;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .photo-mode-button {
+            position: fixed;
+            top: 209px;
+            left: 715px;
+            width: 395px;
+            height: 97px;
+        }
+
+        .integrate-button {
+            position: fixed;
+            top: 348px;
+            left: 715px;
+            width: 395px;
+            height: 97px;
+        }
+
+        .party-mode-button {
+            position: fixed;
+            top: 487px;
+            left: 715px;
+            width: 395px;
+            height: 97px;
+        }
+
+        .danger-button {
+            position: fixed;
+            bottom: 50px;
+            right: 41px;
+            width: 147px;
+            height: 54px;
+        }
+    </style>
+</head>
+<div style="display: flex; align-items: center;">
+    <button class="photo-mode-button" style="margin: 5px;" onclick="window.location.href='photo-mode.html'">Photo Mode</button>
+    <button class="integrate-button" style="margin: 5px;">Integrate</button>
+    <button class="party-mode-button" style="margin: 5px;" onclick="window.location.href='party-mode.html'">Party Mode</button>
 </div>
+
+<div>
+    <button class="danger-button" onclick="window.location.href='danger-mode.html'">Don't Touch!<br>(Emergency)</button>
+</div>
+
 </html>
