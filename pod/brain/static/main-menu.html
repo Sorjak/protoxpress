@@ -15,8 +15,7 @@
         }
 
         button {
-            padding: 10px 20px;
-            font-size: 16px;
+            padding: 0%;
             cursor: pointer;
         }
 
@@ -26,6 +25,12 @@
             left: 715px;
             width: 395px;
             height: 97px;
+            background-image: url('assets/images/photo-mode-button.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: transparent;
+            border: none;
         }
 
         .integrate-button {
@@ -38,29 +43,41 @@
 
         .party-mode-button {
             position: fixed;
-            top: 487px;
-            left: 715px;
-            width: 395px;
-            height: 97px;
+            top: 470.5px;
+            left: 700.5px;
+            width: 424px;
+            height: 130px;
+            background-image: url('assets/images/party-mode-button.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: transparent;
+            border: none;
         }
 
         .danger-button {
             position: fixed;
-            bottom: 50px;
-            right: 41px;
+            bottom: 40px;
+            right: 49px;
             width: 147px;
             height: 54px;
+            background-image: url('assets/images/dont-touch-button.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: transparent;
+            border: none;
         }
     </style>
 </head>
 <div style="display: flex; align-items: center;">
-    <button class="photo-mode-button" style="margin: 5px;" onclick="window.location.href='photo-mode.html'">Photo Mode</button>
-    <button class="integrate-button" style="margin: 5px;">Integrate</button>
-    <button class="party-mode-button" style="margin: 5px;" onclick="window.location.href='party-mode.html'">Party Mode</button>
+    <button class="photo-mode-button" onclick="window.location.href='photo-mode.html'"></button>
+    <button class="integrate-button">Integrate</button>
+    <button class="party-mode-button" onclick="window.location.href='party-mode.html'"></button>
 </div>
 
 <div>
-    <button class="danger-button" onclick="window.location.href='danger-mode.html'">Don't Touch!<br>(Emergency)</button>
+    <button class="danger-button" onclick="window.location.href='danger-mode.html'"></button>
 </div>
 
 </html>
