@@ -8,6 +8,9 @@
         <p>Send Action:</p>
         <ul id="action-list"></ul>
 
+        <!-- Add navigation button -->
+        <button id="main-menu-button">Go to Main Menu</button>
+
     </body>
 
     <script type="text/javascript">
@@ -55,6 +58,11 @@
                 }
             });
         }
+
+        // Add event listener for navigation button
+        document.getElementById('main-menu-button').onclick = () => {
+            window.location.href = 'main-menu.html';
+        };
 
         createActionLinks();
     </script>
