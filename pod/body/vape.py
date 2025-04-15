@@ -144,6 +144,9 @@ class VapeController(BaseController):
         if not self.current_config:
             return
 
+        if self.scene_duration == -1:
+            return
+
         self.scene_counter += 1
         if self.scene_counter > self.scene_duration:
             self.exit_scene()

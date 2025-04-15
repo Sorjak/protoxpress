@@ -113,6 +113,9 @@ class LightController(BaseController):
         if not self.current_config:
             return
 
+        if self.scene_duration == -1:
+            return
+
         now = time.monotonic()
         if self.scene_start + self.scene_duration < now:
             print(f'Exiting scene {self.current_scene} at {now}')
