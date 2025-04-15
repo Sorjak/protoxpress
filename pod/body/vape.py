@@ -1,6 +1,3 @@
-import math
-import time
-
 import pwmio
 import board
 
@@ -64,7 +61,9 @@ class VapeController(BaseController):
                 {'s': 900, 'e': 1100},
             ],
         },
-        'photo': {},
+        'photo': {
+            'duration': -1
+        },
     }
 
     def __init__(self):

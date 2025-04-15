@@ -1,5 +1,3 @@
-import time
-
 scenes = {
     0: "none",
     1: "abort",
