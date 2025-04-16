@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Standard Procedure 😃</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            background-color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="sequence-gif">
+        <div>
+            <h1>Look at me, I am the Happy Path now!</h1>
+            <p>Playing sequence gif</p>
+        </div>
+    </div>
+    <div id="turgid-slug" style="display: none">
+        <div>
+            <h1>Well Slimed!</h1>
+            <p>Showing smile slug</p>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src='js/index.js'></script>
+<script>
+    var SEQUENCE_DURATION_MS = 10000;
+    var HAPPY_SLUG_DURATION_MS = 5000;
+    setTimeout(() => {
+        document.getElementById('sequence-gif').style.display = 'none';
+        document.getElementById('turgid-slug').style.display = 'flex';
+
+        setTimeout(() => {
+            goToPage('main-menu');
+        }, HAPPY_SLUG_DURATION_MS);
+    }, SEQUENCE_DURATION_MS);
+</script>
+
+</html>

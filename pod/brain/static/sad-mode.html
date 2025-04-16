@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experimental Procedure 😰</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div id="sequence-gif">
+        <div>
+            <h1>Aw man, this is the Sad Mode</h1>
+            <p>Playing sequence gif</p>
+        </div>
+    </div>
+    <div id="flacid-slug" style="display: none">
+        <div>
+            <h1>Fuck You</h1>
+            <p>Showing sad slug</p>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src='js/index.js'></script>
+<script>
+    var SEQUENCE_DURATION_MS = 10000;
+    var SAD_SLUG_DURATION_MS = 5000;
+    setTimeout(() => {
+        document.getElementById('sequence-gif').style.display = 'none';
+        document.getElementById('flacid-slug').style.display = 'flex';
+
+        setTimeout(() => {
+            goToPage('main-menu');
+        }, SAD_SLUG_DURATION_MS);
+    }, SEQUENCE_DURATION_MS);
+</script>
+
+</html>

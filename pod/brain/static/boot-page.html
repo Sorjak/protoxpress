@@ -20,6 +20,9 @@
         }
     </style>
     <script>
+        var INITIAL_BLACK_SCREEN_DUR_MS = 1500;
+        var PROTOX_LOGO_DUR_MS = 4500;
+        var FINAL_BLACK_SCREEN_DUR_MS = 1500;
         document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => {
                 const img = document.querySelector("img");
@@ -31,9 +34,9 @@
 
                     setTimeout(() => {
                         window.location.href = "main-menu.html";
-                    }, 1500);
-                }, 4000);
-            }, 1500);
+                    }, FINAL_BLACK_SCREEN_DUR_MS);
+                }, PROTOX_LOGO_DUR_MS);
+            }, INITIAL_BLACK_SCREEN_DUR_MS);
         });
     </script>
 </head>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Boarding 💺</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            background-color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="a" style="display: flex;">
+        <h1>LOADING USER INTO POD...</h1>
+    </div>
+    <div id="b" style="display: none;">
+        <div>
+            <h1>Which way, Western Man?</h1>
+            <button onclick="goToPage('happy-mode')">Standard Procedure</button>
+            <button onclick="goToPage('sad-mode')">Experimental Procedure</button>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src='js/index.js'></script>
+<script>
+    var LOADING_USER_COUNTDOWN_MS = 5000;
+    setTimeout(() => {
+        document.getElementById('a').style.display = 'none';
+        document.getElementById('b').style.display = 'flex';
+    }, LOADING_USER_COUNTDOWN_MS);
+</script>
+
+</html>
