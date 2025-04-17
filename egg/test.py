@@ -17,7 +17,7 @@ class NFCReader():
     def __init__(self):
         # SPI connection:
         spi = busio.SPI(board.SCK, board.MOSI, board.MISO)
-        cs_pin = DigitalInOut(board.D5)
+        cs_pin = DigitalInOut(board.D25)
         self.pn532 = PN532_SPI(spi, cs_pin, debug=False)
 
         ic, ver, rev, support = self.pn532.firmware_version
@@ -25,7 +25,7 @@ class NFCReader():
 
         # Configure PN532 to communicate with MiFare cards
         self.pn532.SAM_configuration()
-
+        self.pn532.listen_for_passive_target()
 
     def auth_card_for_reading(self, uid):
         authenticated = self.pn532.mifare_classic_authenticate_block(uid, 4, MIFARE_CMD_AUTH_B, self.key)
@@ -80,3 +80,33 @@ class NFCReader():
 
         return data
 
+    
+    def scan_for_card_passive(self):
+        now = time.monotonic()
+        data = None
+        if self.last_scan + self.scan_cd > now:
+            return data
+        
+        uid = self.pn532.get_passive_target(timeout=0.01)
+        if uid is not None:
+            self.last_scan = now
+            try:
+                self.auth_card_for_reading(uid)
+                data = self.get_data_from_card()
+            except Exception as e:
+                print(f'NFC Error: {str(e)}')
+
+        return data
+
+nfc = NFCReader()
+
+loop_counter = 0
+while True:
+    now = time.monotonic()
+    if data := nfc.scan_for_card_passive():
+        print(data)
+
+    loop_time = time.monotonic()
+    loop_counter = (loop_counter + 1) % 100
+    if loop_counter == 0:
+        print(loop_time - now)
