@@ -7,38 +7,69 @@
     <title>Standard Procedure 😃</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
-        
+        #sequence-video {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100vh;
+            background: black;
+            position: fixed;
+        }
+
+        #sequence-video video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #background-image {
+            display: none;
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            width: 1280px;
+            height: 800px;
+            background-image: url('assets/images/slimy-success.png');
+            background-size: contain;
+            background-position: center;
+            z-index: 0;
+            overflow: hidden;
+        }
     </style>
 </head>
 
 <body>
-    <div id="sequence-gif">
-        <div>
-            <h1>Look at me, I am the Happy Path now!</h1>
-            <p>Playing sequence gif</p>
-        </div>
-    </div>
-    <div id="turgid-slug" style="display: none">
-        <div>
-            <h1>Well Slimed!</h1>
-            <p>Showing smile slug</p>
-        </div>
-    </div>
-    
+    <div id="sequence-video">
+        <video autoplay muted>
+            <source src="assets/videos/Good_BoneRemapGraph.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div id="background-image"></div>
+    </div>    
     <button class="abort-button" onclick="abortSequence()"></button>
 </body>
 <script type="text/javascript" src='js/index.js'></script>
 <script>
-    var SEQUENCE_DURATION_MS = 10000;
+    var VIDEO_DURATION_MS = 10000;
     var HAPPY_SLUG_DURATION_MS = 5000;
-    setTimeout(() => {
-        document.getElementById('sequence-gif').style.display = 'none';
-        document.getElementById('turgid-slug').style.display = 'flex';
+    const videoElement = document.querySelector('#sequence-video video');
+    videoElement.playbackRate = videoElement.duration ? videoElement.duration / (VIDEO_DURATION_MS / 1000) : 1;
 
+    videoElement.addEventListener('loadedmetadata', () => {
+        videoElement.playbackRate = videoElement.duration / (VIDEO_DURATION_MS / 1000);
+    });
+
+    document.querySelector('#sequence-video video').addEventListener('ended', () => {
+        // Turn off the video
+        const videoElement = document.querySelector('#sequence-video video');
+        videoElement.style.display = 'none';
+        // Show the background image
+        document.getElementById('background-image').style.display = 'block';
         setTimeout(() => {
             goToPage('main-menu');
         }, HAPPY_SLUG_DURATION_MS);
-    }, SEQUENCE_DURATION_MS);
+    });
 </script>
 
 </html>
