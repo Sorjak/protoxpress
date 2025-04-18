@@ -23,7 +23,9 @@ input_pin_0 = board.A0
 input_pin_1 = board.A1
 input_pin_2 = board.A2
 input_pin_3 = board.A3
-input_pin_4 = board.D24
+input_pin_4 = board.D9
+input_pin_5 = board.D10
+input_pin_6 = board.D11
 
 
 stasis_input = digitalio.DigitalInOut(input_pin_0)
@@ -42,12 +44,20 @@ happy_input = digitalio.DigitalInOut(input_pin_3)
 happy_input.direction = digitalio.Direction.INPUT
 happy_input.pull = digitalio.Pull.DOWN
 
-test_input = digitalio.DigitalInOut(input_pin_4)
-test_input.direction = digitalio.Direction.INPUT
-test_input.pull = digitalio.Pull.DOWN
+idle_input_2 = digitalio.DigitalInOut(input_pin_4)
+idle_input_2.direction = digitalio.Direction.INPUT
+idle_input_2.pull = digitalio.Pull.DOWN
+
+happy_input_2 = digitalio.DigitalInOut(input_pin_5)
+happy_input_2.direction = digitalio.Direction.INPUT
+happy_input_2.pull = digitalio.Pull.DOWN
+
+angry_input_2 = digitalio.DigitalInOut(input_pin_6)
+angry_input_2.direction = digitalio.Direction.INPUT
+angry_input_2.pull = digitalio.Pull.DOWN
 
 
-all_inputs = [stasis_input, idle_input, angry_input, happy_input, test_input]
+all_inputs = [stasis_input, idle_input, angry_input, happy_input, idle_input_2, happy_input_2, angry_input_2]
 
 # The number of NeoPixels
 num_pixels = 72
@@ -256,7 +266,15 @@ def get_mode_from_inputs(start_mode):
     elif happy_input.value:
         mode = 'happy'
 
-    
+    elif idle_input_2.value:
+        mode = 'idle'
+
+    elif happy_input_2.value:
+        mode = 'happy'
+
+    elif angry_input_2.value:
+        mode = 'angry'
+
     return mode
 
 def handle_heartbeat(data, hb_counter, second_beat):
@@ -301,7 +319,7 @@ def happy_mode_special(dt):
     rainbow_cycle(dt, 0.001)
 
 
-old_mode = 'test'
+old_mode = 'stasis'
 loop_counter = 0
 print(f'starting mode {old_mode}')
 while True:
