@@ -15,11 +15,6 @@
             background-position: top left;
         }
 
-        button {
-            padding: 0%;
-            cursor: pointer;
-        }
-
         .photo-mode-button {
             position: fixed;
             top: 209px;
@@ -34,12 +29,18 @@
             border: none;
         }
 
-        .integrate-button {
+        .debone-button {
             position: fixed;
             top: 348px;
             left: 715px;
             width: 395px;
-            height: 97px;
+            height: 98px;
+            background-image: url('assets/images/debone-button.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: transparent;
+            border: none;
         }
 
         .party-mode-button {
@@ -122,7 +123,7 @@
 <body>
     <div style="display: flex; align-items: center;">
         <button class="photo-mode-button" onclick="goToPage('photo-mode')"></button>
-        <button class="integrate-button" onclick="showModal()">Integrate</button>
+        <button class="debone-button" onclick="showModal()"></button>
         <button class="party-mode-button" onclick="goToPage('party-mode')"></button>
     </div>
 

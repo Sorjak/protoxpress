@@ -36,3 +36,8 @@ async function goToPage(page_name) {
 
     window.location.href = `${page_name}.html`;
 }
+
+async function abortSequence() {
+    console.log("Aborting sequence...");
+    goToPage("main-menu");
+}

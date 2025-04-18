@@ -1,14 +1,43 @@
 /* Style the video: 100% width and height to cover the entire window */
 #screensaver-vp {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /* object-fit: cover; */
-    display: none; /* Hide the video by default */
-  }
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* object-fit: cover; */
+  display: none;
+  /* Hide the video by default */
+}
 
-  body {
-    background-color: black;
-  }
+body {
+  background-color: black;
+}
+
+.exit-button {
+  position: fixed;
+  left: 119px;
+  top: 40px;
+  width: 178px;
+  height: 55px;
+  background-image: url('assets/images/abort-button.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  border: none;
+}
+
+.abort-button {
+  position: fixed;
+  left: 119px;
+  top: 40px;
+  width: 178px;
+  height: 55px;
+  background-image: url('../assets/images/abort-button.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  border: none;
+}

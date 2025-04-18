@@ -8,29 +8,72 @@
     <link rel="stylesheet" href="css/style.css">
     <style>
         body {
-            background-color: white;
+            background-image: url('assets/images/Proto_Tablet_BlankFrame.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .loading-user {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .button-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 58px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .button-container button {
+            background-color: transparent;
+            background-size: cover;
+            background-repeat: no-repeat;
+            border: none;
+            padding: 0;
+            width: auto;
+            height: auto;
+        }
+
+        .button-container .happy-mode-button {
+            background-image: url('assets/images/standard-sequence-button.png');
+            width: 506px;
+            height: 98px;
+        }
+
+        .button-container .sad-mode-button {
+            background-image: url('assets/images/malfunction-button.png');
+            width: 397px;
+            height: 98px;
         }
     </style>
 </head>
 
 <body>
-    <div id="a" style="display: flex;">
-        <h1>LOADING USER INTO POD...</h1>
+    <img src="assets/images/loading-user.gif" alt="Loading User" class="loading-user">
+    <div class="button-container">
+        <button class="happy-mode-button" onclick="goToPage('happy-mode')"></button>
+        <button class="sad-mode-button" onclick="goToPage('sad-mode')"></button>
     </div>
-    <div id="b" style="display: none;">
-        <div>
-            <h1>Which way, Western Man?</h1>
-            <button onclick="goToPage('happy-mode')">Standard Procedure</button>
-            <button onclick="goToPage('sad-mode')">Experimental Procedure</button>
-        </div>
-    </div>
+    <button class="abort-button" onclick="abortSequence()"></button>
 </body>
 <script type="text/javascript" src='js/index.js'></script>
 <script>
     var LOADING_USER_COUNTDOWN_MS = 5000;
+
     setTimeout(() => {
-        document.getElementById('a').style.display = 'none';
-        document.getElementById('b').style.display = 'flex';
+        document.querySelector('.loading-user').style.display = 'none';
+        document.querySelector('.button-container').style.display = 'flex';
     }, LOADING_USER_COUNTDOWN_MS);
 </script>
 
